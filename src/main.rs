@@ -28,18 +28,15 @@ fn main() {
     rl.handle.set_target_fps(60);
 
     let mut game_board = board::Board::new(BOARD_ROWS, BOARD_COLS);
-    game_board.flip_cell(4, 7);
-    game_board.flip_cell(4, 8);
-    game_board.flip_cell(4, 9);
 
     let mut sim_timer = 0.0;
     let mut sim_interval_index: i32 = 3;
 
-    let mut pause = false;
+    let mut pause = true;
     let mut pause_text = "Pause";
 
-    let mut editing = false;
-    let mut edit_text = "Edit";
+    let mut editing = true;
+    let mut edit_text = "Stop Editing";
 
     while !rl.handle.window_should_close() {
         let speed_up_state;
@@ -145,6 +142,24 @@ fn main() {
             }
         } else if editing {
             // Edit the board with the mouse
+            let mouse_pos = rl.handle.get_mouse_position();
+
+            if mouse_pos.x < SIM_WIDTH as f32 && mouse_pos.y < SIM_HEIGHT as f32 {
+                let cell_col = (mouse_pos.x / (SIM_WIDTH / game_board.cols) as f32) as i32;
+                let cell_row = (mouse_pos.y / (SIM_HEIGHT / game_board.rows) as f32) as i32;
+
+                if rl
+                    .handle
+                    .is_mouse_button_down(MouseButton::MOUSE_BUTTON_LEFT)
+                {
+                    game_board.set_cell(cell_row, cell_col, true);
+                } else if rl
+                    .handle
+                    .is_mouse_button_down(MouseButton::MOUSE_BUTTON_RIGHT)
+                {
+                    game_board.set_cell(cell_row, cell_col, false);
+                }
+            }
         }
     }
 }
