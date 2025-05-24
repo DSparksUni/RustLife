@@ -24,7 +24,7 @@ const UI_BUTTON_WIDTH: f32 = 75.0;
 const UI_BUTTON_HEIGHT: f32 = 25.0;
 
 fn main() {
-    let mut rl = render::RaylibContext::new("Testing...", WINDOW_WIDTH, WINDOW_HEIGHT);
+    let mut rl = render::RaylibContext::new("RustLife", WINDOW_WIDTH, WINDOW_HEIGHT);
     rl.handle.set_target_fps(60);
 
     let mut game_board = board::Board::new(BOARD_ROWS, BOARD_COLS);
